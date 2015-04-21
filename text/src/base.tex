@@ -1,170 +1,6 @@
 \documentclass[a4paper, 14pt, titlepage]{extarticle}
-  % TODO почистить преамбулу от неиспользуемых вещей
-  \usepackage{cmap}
-  \usepackage[hidelinks,pdftex,unicode]{hyperref}
-  \usepackage[T2A]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage[english,russian]{babel}
-  \usepackage{indentfirst}
-  \usepackage{cite}
-  \usepackage[usenames,dvipsnames]{xcolor}
-  \usepackage[pdftex]{graphicx}
-    \graphicspath{{../img/}{../../img/}}
-  \usepackage{subfig}
-  \usepackage{numprint}
-  \usepackage[left=30mm,right=15mm,top=20mm,bottom=20mm,bindingoffset=0cm]{geometry}
-  \usepackage{datetime}
-  \usepackage{setspace} % для иных отступов в tikz-картинках
-  \usepackage{tikz}
-    \usetikzlibrary{positioning,fit,shapes,calc,backgrounds}
-    % Цветовая тема:
-    \colorlet{color1}{violet}         \colorlet{color1bg}{violet!15}
-      \colorlet{color1a}{violet!70!Blue}\colorlet{color1abg}{violet!20}
-    \colorlet{color2}{cyan!80!Blue}   \colorlet{color2bg}{cyan!15}
-    \colorlet{color3}{Emerald}        \colorlet{color3bg}{green!15}
-    \colorlet{color4}{Orange}         \colorlet{color4bg}{orange!20}
-    \colorlet{color5}{OliveGreen}     \colorlet{color5bg}{green!15!yellow!15}
-    \colorlet{color0}{Gray}           \colorlet{color0bg}{Gray!10}
-    % Определяет стили theme1, theme1a, theme2...
-    \newcommand{\deftheme}[1]{\tikzstyle{theme#1}  = [draw=color#1,  fill=color#1bg]}
-    \deftheme{0}\deftheme{1}\deftheme{1a}\deftheme{2}\deftheme{3}\deftheme{4}\deftheme{5}
+  \usepackage[bib,figtable,newpage,titlegost]{mypreamble} % моя преамбула
   \usepackage[babel,protrusion=true,expansion]{microtype}
-  \usepackage[labelsep=endash]{caption} % тире в подписях рисунков, таблиц
-  \usepackage{listings}
-    \lstloadlanguages{C++}
-    \lstset{
-      language=C++,          % везде язык C++
-      extendedchars=true,    % включаем не латиницу
-      frame=tb,              % рамка сверху и снизу
-      basicstyle=\small, % основной шрифт
-      commentstyle=\itshape\color{black!50}, % шрифт комментариев
-      gobble=6,              % по умолчанию удалять 6 пробелов в начале строки (отступы от \begin)
-      texcl=true,            % комментарии - TeX, позволяет использовать русские буквы
-      xleftmargin=1.5cm,       % дефолтные поля по 2см,
-      xrightmargin=1.5cm,      % чтобы смотрелось как рисунок
-      morekeywords={nullptr, override,
-        signals, slots, emit}, % ключевые слова Qt MOC и C++11
-      breaklines=true,       % включить авто переносы
-      breakatwhitespace=false, % разрешить переносить не только по пробелу
-      showstringspaces=false % не подчёркивать пробелы в строках
-    }
-    % для кода в строчку
-    \newcommand{\inlinecode}[1]{\lstinline[basicstyle=\ttfamily]{#1}}
-  \usepackage{totcount} % для посчёта полного числа рисунков итп
-    % подсчёт рисунков:
-    \regtotcounter{figure}
-    % полное число страниц
-    \regtotcounter{page}
-    % подсчёт источников:
-    \newtotcounter{citnum}
-    \let\oldbibitem\bibitem
-    \renewcommand\bibitem{\stepcounter{citnum}\oldbibitem}
-    % правильный подсчёт страниц (от введения до заключения, не считая содержание и список источников
-    % USAGE: Поместить \firstPageHere перед первой страницей, а \lastPageHere на последней странице.
-    %        После этого можно использовать \total{pagenum} в любом месте документа
-    \newtotcounter{pagenum}
-    \newcounter{firstpage}
-    \newcommand\firstPageHere{\setcounter{firstpage}{\value{page}}}
-    \newcommand\lastPageHere{\setcounter{pagenum}{\value{page} - \value{firstpage}}}
-  \usepackage{titlesec}
-    \titlespacing{\paragraph}{\parindent}{0pt}{1em} % \paragraph без вертикального пропуска, но с абзацным отступом
-    % Все заголовки: обычный размер шрифта, абзацный отступ, пропуск одной строки до и после заголовка
-    \titleformat*{\section}{\normalfont\normalsize\bfseries}
-    \titlespacing{\section}{\parindent}{0pt}{\baselineskip}
-    \titleformat*{\subsection}{\normalfont\normalsize\bfseries}
-    \titlespacing{\subsection}{\parindent}{\baselineskip}{\baselineskip}
-    \titleformat*{\subsubsection}{\normalfont\normalsize\bfseries}
-    \titlespacing{\subsubsection}{\parindent}{\baselineskip}{\baselineskip}
-  \usepackage[inline]{enumitem} % Расширенное форматирование списков. Опция inline создаёт inline-списки (enumerate*, itemize* и description)
-    % Убираем пропуски вокруг списков и между их элементами
-    \setlist{nosep}
-    % Фикс для подпунктов а), б) ...
-    \AddEnumerateCounter{\Asbuk}{\@Asbuk}{Ы}
-    \AddEnumerateCounter{\asbuk}{\@asbuk}{ы}
-    % Отдельно фиксим пропуски в библиографии
-    \let\oldthebibliography\thebibliography
-    \renewcommand\thebibliography[1]{
-      \oldthebibliography{#1}
-      \setlength{\parskip}{0pt}
-      \setlength{\itemsep}{0pt plus 0.3ex}
-    }
-  \frenchspacing
-
-  \DeclareSymbolFont{T2Aletters}{T2A}{cmr}{m}{it} % кириллица в формулах курсивом
-
-  \addto\captionsrussian{
-    \renewcommand\contentsname{\centering Содержание}
-    \renewcommand\figurename{Рисунок}
-    \renewcommand\refname{Список использованных источников}
-    % перекрываю \refname, чтобы список литературы сам добавлял себя в оглавление
-    \let\oldrefname\refname
-    \renewcommand\refname{\addcontentsline{toc}{section}{\oldrefname}\centering \oldrefname}
-  }
-
-  % Ненумерованный section, но добавленный в оглавление
-  \newcommand\sectiontoc[1]{\section*{\centering #1}\addcontentsline{toc}{section}{#1}}
-
-  \newcommand{\underscore}[1]{\hbox to#1{\hrulefill}}
-  \newcommand{\todo}[1]{\textbf{\textcolor{red}{TODO: #1}}}
-  \newcommand{\note}[1]{\textit{Примечание: #1}}
-  \newcommand{\eng}[1]{\foreignlanguage{english}{#1}}
-
-  % выделение термина в определении (и не только)
-  \let\term\emph
-  \newcommand{\term}[1]{\emph{#1}}
-
-  % обёртка с моими настройками поверх figure:
-  % \begin{myfigure}{подпись}{fig:label} ... \end{myfigure}
-  \newenvironment{myfigure}[2]%
-    {\pushQED{\caption{#1} \label{#2}} % push caption & label
-     \begin{figure}[!htb]\centering } %
-    {  \popQED % pop caption & label
-     \end{figure}}
-
-  % вставка картинки: \figure[params]{подпись}{file}
-  % создаёт label вида fig:file
-  \newcommand{\includefigure}[3][]{
-    \begin{myfigure}{#2}{fig:#3}
-      \includegraphics[#1]{#3}
-    \end{myfigure}
-  }
-
-  % вставка subfigure внутри myfigure:
-  % \subfigure[params]{подпись}{file}
-  \newcommand{\subfigure}[3][]{
-    \subfloat[#2]{\label{fig:#3}\includegraphics[#1]{#3}}
-  }
-
-  \renewcommand{\le}{\leqslant} % <= с наклонной нижней перекладиной
-  \renewcommand{\ge}{\geqslant} % >= с наклонной нижней перекладиной
-
-  \linespread{1.3}
-
-  % русские буквы для списков и частей рисунка
-  \renewcommand{\theenumii}{(\asbuk{enumii})}
-  \renewcommand{\labelenumii}{\asbuk{enumii})}
-  \renewcommand{\thesubfigure}{\asbuk{subfigure}}
-
-  % разделы с новой страницы
-  \let\oldsection\section
-  %% OFF %%% \renewcommand{\section}{\newpage\oldsection}
-
-  \setcounter{tocdepth}{3} % глубина оглавления
-
-  \hyphenation{англ} % убрать перенос в этом сокращении
-
-  % алиас и настройки для numprint
-  \newcommand{\num}[1]{\numprint{#1}}
-  \npthousandsep{\,}
-  \npthousandthpartsep{}
-  \npdecimalsign{,}
-
-  % нумерация в списке использованных источников в виде 1. 2. 3., а не [1] [2] [3]
-  \makeatletter
-  \renewcommand\@biblabel[1]{#1.}
-  \makeatother
-
-  \newcommand{\checkdate}[3]{(дата обращения: \formatdate{#1}{#2}{#3})}
 
   \newcommand{\thetitle}{Модель структурных дефектов в полупроводниках}
   \newcommand{\theauthor}{Иван Новиков}
@@ -173,13 +9,7 @@
   \title{\thetitle}
   \date{\today{} \currenttime}
 
-  \hypersetup{
-    pdfinfo={
-      Title = {\thetitle},
-      Author = {\theauthor},
-      Subject = {}
-    }
-  }
+  \SetPdfTitleAndAuthor{\thetitle}{\theauthor}
 
 \begin{document}
 
@@ -241,8 +71,6 @@
   \clearpage
 
 %-------------------------- введение --------------------------
-  \firstPageHere
-
   \sectiontoc{TEMP: Доклад}
 
   \subsection{Предполагаемый план}
@@ -411,10 +239,6 @@
 
   Таким образом, \dots
 
-  %\lastPageHere
+  \PrintBibliography
 
-  \begin{flushleft}
-    \bibliographystyle{../../biblio/ugost2003} % Или использовать ugost2008 для нового ГОСТа
-    \bibliography{../../biblio/my,../../biblio/own}
-  \end{flushleft}
 \end{document}
