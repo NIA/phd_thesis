@@ -251,7 +251,7 @@
 % newpage: разделы с новой страницы
 \if@newpage@mypreamb
   \let\oldsection\section
-  \renewcommand{\section}{\newpage\oldsection}
+  \renewcommand{\section}{\clearpage\oldsection}
 \fi
 
 % Конец
