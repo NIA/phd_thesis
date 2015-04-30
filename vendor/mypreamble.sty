@@ -80,6 +80,9 @@
     \setlength{\parskip}{0pt}
     \setlength{\itemsep}{0pt plus 0.3ex}
   }
+  % Отдельный вид списка, сразу начинающийся с букв а), б), ...
+  \newlist{enumasbuk}{enumerate}{1}
+  \setlist[enumasbuk]{label=\asbuk*), ref=(\asbuk*)}
 \usepackage[usenames,dvipsnames]{xcolor} % цвета: используются как для текста, так и для рисования (tikz)
 \setcounter{tocdepth}{3} % глубина оглавления
 
@@ -131,6 +134,7 @@
   \usepackage{amssymb} % для \leqslant
     \renewcommand{\le}{\leqslant} % <= с наклонной нижней перекладиной
     \renewcommand{\ge}{\geqslant} % >= с наклонной нижней перекладиной
+  \usepackage{commath} % для дифференциалов и производных (\dif, \Dif, \od)
   \usepackage{numprint}
     \let\num\numprint      % просто alias
     \npdecimalsign{,}      % десятичная точка - запятая
