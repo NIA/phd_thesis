@@ -130,7 +130,8 @@
 
 % math: добавочные пакеты и настройки для математики
 \if@math@mypreamb
-  \usepackage{amsmath} % для \eqref
+  \usepackage{amsmath} % для \eqref и др.
+    \DeclareMathOperator{\tr}{tr} % оператор следа матрицы
   \usepackage{amssymb} % для \leqslant
     \renewcommand{\le}{\leqslant} % <= с наклонной нижней перекладиной
     \renewcommand{\ge}{\geqslant} % >= с наклонной нижней перекладиной
